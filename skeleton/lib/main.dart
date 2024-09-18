@@ -57,13 +57,18 @@ class _CounterWidgetState extends State<CounterWidget> {
             activeColor: Colors.blue,
             inactiveColor: Colors.red,
           ),
-          OutlinedButton(
+          Row(
+            children: [
+              OutlinedButton(
             onPressed:(){
-              
+              setState(() {
+                if(_counter > 0){
+                  _counter--;
+                }
+              });
             }, 
             child: Text('Decrement'),
             ),
-          SizedBox(height: 10,),
           OutlinedButton(
             onPressed:(){
               setState(() {
@@ -72,6 +77,8 @@ class _CounterWidgetState extends State<CounterWidget> {
             }, 
             child: Text('Reset'),
             ),
+            ],
+          )
         ],
       ),
     );
