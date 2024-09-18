@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(MyApp());
@@ -69,9 +70,19 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.blue
+      ..color = Colors.yellow
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0;
+
+    final ovalColor = Paint()
+      ..color = Colors.black;
+
+    canvas.drawCircle(Offset(size.width/2,size.height/2),150, paint);
+    canvas.drawCircle(Offset(size.width/2-50,size.height/2-50), 30, ovalColor);
+    canvas.drawCircle(Offset(size.width/2+50,size.height/2-50), 30, ovalColor);
+
+    final smileRect = Rect.fromCircle(center: Offset(size.width / 2, size.height / 2 + 20), radius: 80);
+    canvas.drawArc(smileRect, pi/8, pi-pi /4, false, ovalColor);
 
     for (final line in lines) {
       for (int i = 0; i < line.length - 1; i++) {
