@@ -41,7 +41,7 @@ class _CounterWidgetState extends State<CounterWidget> {
               child: Text(
                 //displays the current number
                 '$_counter',
-                style: TextStyle(fontSize: 50.0),
+                style: TextStyle(fontSize: _counter.toDouble()),
               ),
             ),
           ),
@@ -57,6 +57,21 @@ class _CounterWidgetState extends State<CounterWidget> {
             activeColor: Colors.blue,
             inactiveColor: Colors.red,
           ),
+          OutlinedButton(
+            onPressed:(){
+              
+            }, 
+            child: Text('Decrement'),
+            ),
+          SizedBox(height: 10,),
+          OutlinedButton(
+            onPressed:(){
+              setState(() {
+                _counter = 0;
+              });
+            }, 
+            child: Text('Reset'),
+            ),
         ],
       ),
     );
