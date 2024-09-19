@@ -25,7 +25,8 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
 //initial couter value
-final TextEditingController _controller1=TextEditingController();
+  List<int> _history= [];
+  final TextEditingController _controller1=TextEditingController();
   int _counter = 0;
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,7 @@ final TextEditingController _controller1=TextEditingController();
                 onPressed:(){
                   setState(() {
                     _counter = 0;
+                    _history = [];
                   });
                 }, 
                 child: Text('Reset'),
@@ -97,6 +99,7 @@ final TextEditingController _controller1=TextEditingController();
                 if(_userValue != null){
                   if(_counter + _userValue <=100){
                     _counter += _userValue;
+                    _history.add(_counter);
                   }
                 }else{
                   print('exceeded 100');
@@ -105,6 +108,10 @@ final TextEditingController _controller1=TextEditingController();
             }, 
             child: Text('enter'),
           ),
+          Text(
+              'Counter value: $_history',
+              style: TextStyle(fontSize: 24),
+            ),
         ],
       ),
     );
