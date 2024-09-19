@@ -49,7 +49,7 @@ final TextEditingController _controller1=TextEditingController();
           Slider(
             min: 0,
             max: 100,
-            value: _counter.toDouble(),
+            value: _counter.clamp(0, 100).toDouble(),
             onChanged: (double value) {
               setState(() {
                 _counter = value.toInt();
@@ -94,8 +94,12 @@ final TextEditingController _controller1=TextEditingController();
               setState(() {
                 int? _userValue = int.tryParse(_controller1.text);
 
-                if(_userValue != null && _counter < 100){
-                  _counter += _userValue;
+                if(_userValue != null){
+                  if(_counter + _userValue <=100){
+                    _counter += _userValue;
+                  }
+                }else{
+                  print('exceeded 100');
                 }
               });
             }, 
