@@ -19,6 +19,13 @@ class RecipeBook extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  List<String> recipes = [
+    'Spaghetti',
+    'Chicken Stir-Fry',
+    'Avocado Toast',
+    'Vegetable Soup'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,14 +33,21 @@ class HomePage extends StatelessWidget {
         title: Text('Home Page'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => DetailScreen())
-              );
-          },
-          child: Text('Detail Screen'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(child: 
+            ListView.builder(
+                itemCount: recipes.length,
+                itemBuilder: (context, index) {
+                  return ElevatedButton(
+                    onPressed:(){
+
+                    },
+                    child: Text(recipes[index]));
+                }),
+            ),
+          ],
         ),
       ),
     );
