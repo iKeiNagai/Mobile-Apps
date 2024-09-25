@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class DetailScreen extends StatelessWidget {
   String recipe_name = "";
 
-  DetailScreen({required this.recipe_name});//receives data 
+  DetailScreen({required this.recipe_name}); //receives data
 
-  Map<String,String> _display_details(String recipe_name) {
+  Map<String, String> _display_details(String recipe_name) {
     String ingredients = "";
     String instructions = "";
 
@@ -24,8 +24,8 @@ class DetailScreen extends StatelessWidget {
         4. Toss in drained spaghetti, season with salt and pepper, and garnish with parsley and Parmesan.
         ''';
     }
-    
-    if(recipe_name == 'Chicken Stir-Fry'){
+
+    if (recipe_name == 'Chicken Stir-Fry') {
       ingredients = '''
         - 300g chicken breast, sliced
         - 1 bell pepper, sliced
@@ -44,7 +44,7 @@ class DetailScreen extends StatelessWidget {
         ''';
     }
 
-    if(recipe_name == 'Avocado Toast'){
+    if (recipe_name == 'Avocado Toast') {
       ingredients = '''
         - 2 slices of bread (toasted)
         - 1 ripe avocado
@@ -58,7 +58,7 @@ class DetailScreen extends StatelessWidget {
         ''';
     }
 
-    if(recipe_name == 'Egg Fried Rice'){
+    if (recipe_name == 'Egg Fried Rice') {
       ingredients = '''
         - 1 cup cooked rice
         - 2 eggs, beaten
@@ -70,16 +70,12 @@ class DetailScreen extends StatelessWidget {
         2. Add rice and soy sauce, stir-fry until well combined.
         ''';
     }
-    return{
-      'ingredients':ingredients,
-      'instructions':instructions
-    };
+    return {'ingredients': ingredients, 'instructions': instructions};
   }
-
 
   @override
   Widget build(BuildContext context) {
-    Map<String,String> info = _display_details(recipe_name);
+    Map<String, String> info = _display_details(recipe_name);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,9 +84,32 @@ class DetailScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(recipe_name),
-            Text("Ingredients"),
+            Text(
+              recipe_name,
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.purple),
+            ),
+            SizedBox(height: 15),
+            Text(
+              "Ingredients",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w200,
+                  color: Colors.deepPurple),
+            ),
+            SizedBox(height: 15),
             Text(info['ingredients'] ?? ''),
+            SizedBox(height: 15),
+            Text(
+              "Instructions",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w200,
+                  color: Colors.deepPurple),
+            ),
+            SizedBox(height: 15),
             Text(info['instructions'] ?? '')
           ],
         ),
