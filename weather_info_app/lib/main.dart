@@ -17,7 +17,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _fetch = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +39,16 @@ class HomePage extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(labelText: 'Input City Name'),
+                    controller: _fetch,
                   ),
                 ),
-                OutlinedButton(onPressed: () {}, child: Text('Fecth Weather')),
+                OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        print(_fetch);
+                      });
+                    },
+                    child: Text('Fetch Weather')),
               ],
             ),
             SizedBox(height: 20),
