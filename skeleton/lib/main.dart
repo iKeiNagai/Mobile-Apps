@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -25,8 +26,8 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
 //initial couter value
-  List<int> _history= [];
-  final TextEditingController _controller1=TextEditingController();
+  List<int> _history = [];
+  final TextEditingController _controller1 = TextEditingController();
   int _counter = 0;
   @override
   Widget build(BuildContext context) {
@@ -62,24 +63,24 @@ class _CounterWidgetState extends State<CounterWidget> {
           Row(
             children: [
               OutlinedButton(
-                onPressed:(){
+                onPressed: () {
                   setState(() {
-                    if(_counter > 0){
+                    if (_counter > 0) {
                       _counter--;
                     }
                   });
-                }, 
-              child: Text('Decrement'),
+                },
+                child: Text('Decrement'),
               ),
               OutlinedButton(
-                onPressed:(){
+                onPressed: () {
                   setState(() {
                     _counter = 0;
                     _history = [];
                   });
-                }, 
+                },
                 child: Text('Reset'),
-                ),
+              ),
             ],
           ),
           Container(
@@ -88,30 +89,30 @@ class _CounterWidgetState extends State<CounterWidget> {
               decoration: InputDecoration(
                 labelText: 'Increment by:',
               ),
-            controller: _controller1,
+              controller: _controller1,
             ),
           ),
           ElevatedButton(
-            onPressed:(){
+            onPressed: () {
               setState(() {
                 int? _userValue = int.tryParse(_controller1.text);
 
-                if(_userValue != null){
-                  if(_counter + _userValue <=100){
+                if (_userValue != null) {
+                  if (_counter + _userValue <= 100) {
                     _counter += _userValue;
                     _history.add(_counter);
                   }
-                }else{
+                } else {
                   print('exceeded 100');
                 }
               });
-            }, 
+            },
             child: Text('enter'),
           ),
           Text(
-              'Counter value: $_history',
-              style: TextStyle(fontSize: 24),
-            ),
+            'Counter value: $_history',
+            style: TextStyle(fontSize: 24),
+          ),
         ],
       ),
     );
