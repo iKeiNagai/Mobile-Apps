@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
     'Spaghetti',
     'Chicken Stir-Fry',
     'Avocado Toast',
-    'Vegetable Soup'
+    'Egg Fried Rice'
   ];
 
   @override
