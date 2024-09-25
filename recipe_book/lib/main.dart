@@ -36,16 +36,21 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(child: 
-            ListView.builder(
-                itemCount: recipes.length,
-                itemBuilder: (context, index) {
-                  return ElevatedButton(
-                    onPressed:(){
-
-                    },
-                    child: Text(recipes[index]));
-                }),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index) {
+                    return ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailScreen(recipe_name: recipes[index]),
+                            ),
+                          );
+                        },
+                        child: Text(recipes[index]));
+                  }),
             ),
           ],
         ),
