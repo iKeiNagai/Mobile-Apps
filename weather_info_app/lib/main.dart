@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+
 void main() {
   runApp(MyApp());
 }
@@ -17,14 +18,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-List<String> _generated_weather(String _fetch){
-  List<String> all_info =[];
-  List<String> conditions =["Sunny","Cloudy", "Rainy"];
+List<String> _generated_weather(String _fetch) {
+  List<String> all_info = [];
+  List<String> conditions = ["Sunny", "Cloudy", "Rainy"];
   var random = Random();
 
   //generate number btw 15 and 30
   //temperature
-  int randTemp = 15 + random.nextInt(30-15+1);
+  int randTemp = 15 + random.nextInt(30 - 15 + 1);
   all_info.insert(0, randTemp.toString());
 
   //generate index and add it to list
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   String city_name = "(Input Name)";
   String temperature = "None";
   String weather_condition = "None";
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         city_name = _fetch.text;
-                        all_info=_generated_weather(city_name);
+                        all_info = _generated_weather(city_name);
                         temperature = all_info[0];
                         weather_condition = all_info[1];
                       });
@@ -77,13 +78,22 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 20),
-            Text("City Name"),
+            Text(
+              "City Name",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             Text("You are in $city_name"),
             SizedBox(height: 20),
-            Text("Temperature"),
+            Text(
+              "Temperature",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             Text("The current temperature is $temperature"),
             SizedBox(height: 20),
-            Text("Weather Condition"),
+            Text(
+              "Weather Condition",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
             Text("Current condition is $weather_condition"),
           ],
         ),
