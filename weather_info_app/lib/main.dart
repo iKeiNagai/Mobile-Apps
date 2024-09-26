@@ -43,8 +43,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _fetch = TextEditingController();
   List<String> all_info = [];
-  String temperature = "";
-  String weather_condition = "";
+  String city_name = "(Input Name)";
+  String temperature = "None";
+  String weather_condition = "None";
   
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,8 @@ class _HomePageState extends State<HomePage> {
                 OutlinedButton(
                     onPressed: () {
                       setState(() {
-                        all_info=_generated_weather(_fetch.text);
+                        city_name = _fetch.text;
+                        all_info=_generated_weather(city_name);
                         temperature = all_info[0];
                         weather_condition = all_info[1];
                       });
@@ -76,10 +78,13 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             Text("City Name"),
+            Text("You are in $city_name"),
             SizedBox(height: 20),
-            Text("Temperature ="),
+            Text("Temperature"),
+            Text("The current temperature is $temperature"),
             SizedBox(height: 20),
-            Text("Weather Condition")
+            Text("Weather Condition"),
+            Text("Current condition is $weather_condition"),
           ],
         ),
       ),
