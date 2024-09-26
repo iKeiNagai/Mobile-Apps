@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 void main() {
   runApp(MyApp());
 }
@@ -17,6 +17,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
+List<String> _generated_weather(String _fetch){
+  List<String> all_info =[];
+  List<String> conditions =["Sunny","Cloudy", "Rainy"];
+  var random = Random();
+
+  //generate number btw 15 and 30
+  //temperature
+  int randTemp = 15 + random.nextInt(30-15+1);
+  all_info.insert(0, randTemp.toString());
+
+  //generate index and add it to list
+  //condition
+  int randomIndex = random.nextInt(conditions.length);
+  all_info.insert(1, conditions[randomIndex]);
+
+  return all_info;
+}
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -24,7 +42,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _fetch = TextEditingController();
-
+  List<String> all_info = [];
+  String temperature = "";
+  String weather_condition = "";
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                 OutlinedButton(
                     onPressed: () {
                       setState(() {
-                        print(_fetch);
+                        all_info=_generated_weather(_fetch.text);
+                        temperature = all_info[0];
+                        weather_condition = all_info[1];
                       });
                     },
                     child: Text('Fetch Weather')),
@@ -54,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 20),
             Text("City Name"),
             SizedBox(height: 20),
-            Text("Temperature"),
+            Text("Temperature ="),
             SizedBox(height: 20),
             Text("Weather Condition")
           ],
