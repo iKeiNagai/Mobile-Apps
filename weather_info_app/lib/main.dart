@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'sevenDayForecast.dart';
 
 void main() {
   runApp(MyApp());
@@ -75,6 +76,16 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: Text('Fetch Weather')),
+                OutlinedButton(
+                  onPressed:(){
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => sevenDayForecast()
+                            ),
+                          );
+                  }, 
+                  child: Text("7-day weather"))
               ],
             ),
             SizedBox(height: 20),
