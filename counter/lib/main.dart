@@ -85,14 +85,11 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You have pushed the button this many times:'),
-// Consumer looks for an ancestor Provider widget
-// and retrieves its model (Counter, in this case).
-// Then it uses that model to build widgets, and will trigger
-// rebuilds if the model is updated.
+            
+
             Consumer<Counter>(
               builder: (context, counter, child) => Text(
-                '${counter.value}',
+                'I am ${counter.value} years old',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -101,8 +98,7 @@ class MyHomePage extends StatelessWidget {
                   var counter = context.read<Counter>();
                   counter.increment();
                 },
-                label: const Text('Increment'), // The text
-                icon: const Icon(Icons.add), // The icon
+                label: const Text('Increase Age'), 
                 tooltip: 'Increment'),
             SizedBox(height: 15),
             FloatingActionButton.extended(
@@ -110,8 +106,7 @@ class MyHomePage extends StatelessWidget {
                   var counter = context.read<Counter>();
                   counter.decrement();
                 },
-                label: const Text('Decrement'), // The text
-                icon: const Icon(Icons.remove), // The icon
+                label: const Text('Reduce Age'), 
                 tooltip: 'Decrement'),
           ],
         ),
