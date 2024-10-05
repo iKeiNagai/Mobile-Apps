@@ -36,6 +36,31 @@ class _HomepageState extends State<Homepage> {
     print(operator);
   }
 
+  void calculate(){
+    setState(() {
+      secondNum = int.tryParse(displayText);
+      if(firstNum != null && secondNum!= null && operator!= null){
+        switch(operator){
+          case '+':
+            displayText = (firstNum! + secondNum!).toString();
+            break;
+          case '-':
+            displayText = (firstNum! - secondNum!).toString();
+            break;
+          case '*':
+            displayText = (firstNum! * secondNum!).toString();
+            break;
+          case '/':
+            if(secondNum != 0){
+              displayText = (firstNum! / secondNum!).toString();
+            }
+            displayText = "cant divide by zero";
+            break;
+        }
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +195,9 @@ class _HomepageState extends State<Homepage> {
                   child: Text("*"),
                 ),
               FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      calculate();
+                    },
                     child: Text("="),
                   ),
               ],
