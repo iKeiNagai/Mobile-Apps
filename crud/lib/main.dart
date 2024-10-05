@@ -63,7 +63,11 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(width: 30),
                             Checkbox(value: false, onChanged: null),
                             OutlinedButton(
-                                onPressed: () {}, child: Text("remove"))
+                                onPressed: () {
+                                  setState(() {
+                                    ltasks.removeAt(index);
+                                  });
+                                }, child: Text("remove"))
                           ],
                         ),
                       );
