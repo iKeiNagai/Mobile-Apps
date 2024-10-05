@@ -17,6 +17,16 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  String displayText = '';
+
+
+  void _displayText(String value){
+    setState(() {
+      displayText += value;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +49,7 @@ class _HomepageState extends State<Homepage> {
                   ),
                   alignment: Alignment.centerRight,
                   padding: EdgeInsets.all(10),
-                  child: Text("value here"),
+                  child: Text(displayText),
                 )
               ],
             ),
@@ -47,19 +57,27 @@ class _HomepageState extends State<Homepage> {
             Row(
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('1');
+                  },
                   child: Text("1"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('2');
+                  },
                   child: Text("2"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('3');
+                  },
                   child: Text("3"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('+');
+                  },
                   child: Text("+"),
                 )
               ],
@@ -68,19 +86,27 @@ class _HomepageState extends State<Homepage> {
             Row(
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('4');
+                  },
                   child: Text("4"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('5');
+                  },
                   child: Text("5"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('6');
+                  },
                   child: Text("6"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('-');
+                  },
                   child: Text("-"),
                 )
               ],
@@ -89,19 +115,27 @@ class _HomepageState extends State<Homepage> {
             Row(
               children: <Widget>[
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('7');
+                  },
                   child: Text("7"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('8');
+                  },
                   child: Text("8"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('9');
+                  },
                   child: Text("9"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('/');
+                  },
                   child: Text("/"),
                 )
               ],
@@ -118,11 +152,15 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('0');
+                  },
                   child: Text("0"),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _displayText('*');
+                  },
                   child: Text("*"),
                 )
               ],
