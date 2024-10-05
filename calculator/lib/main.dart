@@ -18,6 +18,9 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   String displayText = '';
+  int firstNum = 0;
+  int secondNum = 0;
+  String operand = "";
 
 
   void _displayText(String value){
@@ -143,14 +146,10 @@ class _HomepageState extends State<Homepage> {
             SizedBox(height: 10),
             Row(
               children: <Widget>[
-                Container(
-                  height: 56.0,
-                  width: 112.0,
-                  child: FloatingActionButton(
+                FloatingActionButton(
                     onPressed: () {},
                     child: Text("Clear"),
                   ),
-                ),
                 FloatingActionButton(
                   onPressed: () {
                     _displayText('0');
@@ -162,7 +161,11 @@ class _HomepageState extends State<Homepage> {
                     _displayText('*');
                   },
                   child: Text("*"),
-                )
+                ),
+              FloatingActionButton(
+                    onPressed: () {},
+                    child: Text("="),
+                  ),
               ],
             ),
           ],
