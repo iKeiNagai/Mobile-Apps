@@ -18,15 +18,22 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   String displayText = '';
-  int firstNum = 0;
-  int secondNum = 0;
-  String operand = "";
+  int? firstNum;
+  int? secondNum;
+  String operator = "";
 
 
   void _displayText(String value){
     setState(() {
       displayText += value;
     });
+  }
+
+  void _operator(String op){
+    firstNum = int.tryParse(displayText);
+    operator = op;
+    displayText = '';
+    print(operator);
   }
 
 
@@ -79,7 +86,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    _displayText('+');
+                    _operator("+");
                   },
                   child: Text("+"),
                 )
@@ -108,7 +115,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    _displayText('-');
+                    _operator("-");
                   },
                   child: Text("-"),
                 )
@@ -137,7 +144,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    _displayText('/');
+                    _operator("/");
                   },
                   child: Text("/"),
                 )
@@ -158,7 +165,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 FloatingActionButton(
                   onPressed: () {
-                    _displayText('*');
+                    _operator('*');
                   },
                   child: Text("*"),
                 ),
