@@ -61,6 +61,15 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void clear_button(){
+    setState(() {
+      displayText ='';
+      firstNum = null;
+      secondNum = null;
+      operator = '';
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +188,9 @@ class _HomepageState extends State<Homepage> {
             Row(
               children: <Widget>[
                 FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      clear_button();
+                    },
                     child: Text("Clear"),
                   ),
                 FloatingActionButton(
