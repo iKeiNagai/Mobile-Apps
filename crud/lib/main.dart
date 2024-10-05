@@ -20,10 +20,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> ltasks = [
-    "1 task",
-    "2 task"
-  ];
+  final TextEditingController _insert = TextEditingController();
+
+  List<String> ltasks = ["1 task", "2 task"];
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +37,37 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: <Widget>[
                 Expanded(
-                    child: Padding(
+                  child: Padding(
                   padding: EdgeInsets.all(25),
                   child: TextField(
                     decoration: InputDecoration(labelText: "Enter task name"),
+                    controller: _insert,
                   ),
-                )),
-                FloatingActionButton(onPressed: () {}, child: Text("Add"))
+                )
+                ),
+                FloatingActionButton(onPressed: () {
+                  setState(() {
+                    ltasks.add(_insert.text);
+                  });
+                }, child: Text("Add"))
               ],
             ),
-            Expanded(child:ListView.builder(
-              itemCount: ltasks.length,
-              itemBuilder: (context, index){
-                return ListTile(
-                  title: Row(
-                    children: <Widget> [
-                      Text(ltasks[index]),
-                      SizedBox(width: 30),
-                      Checkbox(value: false, 
-                      onChanged: null),
-                      OutlinedButton(onPressed:(){
-
-                      }, child: Text("remove"))
-
-                    ],
-                  ),
-                );
-              }))
+            Expanded(
+                child: ListView.builder(
+                    itemCount: ltasks.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Row(
+                          children: <Widget>[
+                            Text(ltasks[index]),
+                            SizedBox(width: 30),
+                            Checkbox(value: false, onChanged: null),
+                            OutlinedButton(
+                                onPressed: () {}, child: Text("remove"))
+                          ],
+                        ),
+                      );
+                    }))
           ],
         ),
       ),
