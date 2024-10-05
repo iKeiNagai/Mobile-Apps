@@ -37,19 +37,20 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: Padding(
+                    child: Padding(
                   padding: EdgeInsets.all(25),
                   child: TextField(
                     decoration: InputDecoration(labelText: "Enter task name"),
                     controller: _insert,
                   ),
-                )
-                ),
-                FloatingActionButton(onPressed: () {
-                  setState(() {
-                    ltasks.add(_insert.text);
-                  });
-                }, child: Text("Add"))
+                )),
+                FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        ltasks.add(_insert.text);
+                      });
+                    },
+                    child: Text("Add"))
               ],
             ),
             Expanded(
@@ -59,7 +60,11 @@ class _HomePageState extends State<HomePage> {
                       return ListTile(
                         title: Row(
                           children: <Widget>[
-                            Text(ltasks[index]),
+                            Expanded(
+                                child: Text(
+                              ltasks[index],
+                              maxLines: 4
+                            )),
                             SizedBox(width: 30),
                             Checkbox(value: false, onChanged: null),
                             OutlinedButton(
@@ -67,7 +72,8 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     ltasks.removeAt(index);
                                   });
-                                }, child: Text("remove"))
+                                },
+                                child: Text("remove"))
                           ],
                         ),
                       );
