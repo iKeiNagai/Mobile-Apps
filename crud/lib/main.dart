@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: () {
                                   setState(() {
                                     ltasks.removeAt(index);
+                                    isChecked.removeAt(index);
                                   });
                                 },
                                 child: Text("remove"))
