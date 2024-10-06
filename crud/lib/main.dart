@@ -21,9 +21,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _insert = TextEditingController();
+  List<String> ltasks = [];
+  List<bool> isChecked = [];
 
-  List<String> ltasks = ["1 task", "2 task"];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       setState(() {
                         ltasks.add(_insert.text);
+                        isChecked.add(false);
                       });
                     },
                     child: Text("Add"))
@@ -66,7 +68,13 @@ class _HomePageState extends State<HomePage> {
                               maxLines: 4
                             )),
                             SizedBox(width: 30),
-                            Checkbox(value: false, onChanged: null),
+                            Checkbox(
+                              value: isChecked[index],
+                              onChanged: (bool? value){
+                                setState(() {
+                                  isChecked[index] = value!;
+                                });
+                              }),
                             OutlinedButton(
                                 onPressed: () {
                                   setState(() {
