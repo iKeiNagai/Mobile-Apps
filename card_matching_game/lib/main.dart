@@ -26,17 +26,15 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Card Matching Game'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Card Matching game here',
-              style: TextStyle(fontSize: 24),
-            ),
-          ],
-        ),
-      ),
+      body: Padding(
+        padding: EdgeInsets.all(8.0),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, crossAxisSpacing: 8,mainAxisSpacing: 8), 
+          itemCount: 8,
+          itemBuilder: (context, index){
+              return Text("card $index");
+          }),)
     );
   }
 }
