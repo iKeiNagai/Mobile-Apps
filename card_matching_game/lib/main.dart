@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   List<bool> flipped = List.generate(8, (_) => false);
   List<String> card_elements = ['K','K','Q','Q','J','J','A','A'];
   List<int> flippedIndex = [];
+  List<String> two_cards = [];
 
   void initState(){
     super.initState();
@@ -37,9 +38,29 @@ class _HomePageState extends State<HomePage> {
       if(flippedIndex.length < 2 && !flipped[index]){
         flipped[index] = !flipped[index];
         flippedIndex.add(index);
+        two_cards.add(_card);
+      }
+      if(flippedIndex.length == 2){
+        check_match();
       }
     });
-    print(_card);
+  }
+
+  void check_match(){
+    print(two_cards);
+    if(two_cards[0] == two_cards[1]){
+      two_cards.clear();
+      flippedIndex.clear();
+    }else{
+      Timer(Duration(seconds: 1),(){
+          setState(() {
+          flipped[flippedIndex[0]]= false;
+          flipped[flippedIndex[1]]= false;
+          flippedIndex.clear();
+          two_cards.clear();
+          });
+        });
+    }
   }
 
   @override
