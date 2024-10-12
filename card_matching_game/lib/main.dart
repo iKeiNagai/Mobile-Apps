@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   void initState(){
     super.initState();
     card_elements.shuffle();
-    print(card_elements);
   }
   
   void _flip(int index,String _card){
@@ -47,7 +46,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void check_match(){
-    print(two_cards);
     if(two_cards[0] == two_cards[1]){
       two_cards.clear();
       flippedIndex.clear();
@@ -63,6 +61,16 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _reset(){
+    setState(() {
+      for(int i = 0; i < flipped.length;i++){
+      flipped[i] = false;
+    }
+    flippedIndex.clear();
+    two_cards.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,32 +79,43 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Padding(
           padding: EdgeInsets.all(8.0),
-          child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8),
-              itemCount: 8,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _flip(index,card_elements[index]);
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(seconds: 0),
-                    child: Center(
-                        child: flipped[index]
-                            ? Container(
-                                color: Colors.white,
-                                child: Center(child: Text(card_elements[index])),
-                              )
-                            : Container(
-                                color: Colors.purple,
-                                child: Center(child: Text("Tap")),
-                              )),
-                  ),
-                );
-              }),
+          child: Column(
+            children: [
+              Expanded(
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _flip(index,card_elements[index]);
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(seconds: 0),
+                          child: Center(
+                              child: flipped[index]
+                                  ? Container(
+                                      color: Colors.white,
+                                      child: Center(child: Text(card_elements[index])),
+                                    )
+                                  : Container(
+                                      color: Colors.purple,
+                                      child: Center(child: Text("Tap")),
+                                    )),
+                        ),
+                      );
+                    }),
+              ),
+              FloatingActionButton(
+                onPressed:(){
+                  _reset();
+                },
+                child: Text('Reset'))
+            ],
+          ),
         ));
   }
 }
