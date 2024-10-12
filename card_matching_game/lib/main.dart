@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4, crossAxisSpacing: 8, mainAxisSpacing: 8),
+                        crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8),
                     itemCount: 8,
                     itemBuilder: (context, index) {
                       return GestureDetector(
