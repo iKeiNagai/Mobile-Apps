@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,6 +23,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<bool> flipped = List.generate(8, (_) => false);
+  List<String> card_elements = ['K','K','Q','Q','J','J','A','A'];
+  List<int> flippedIndex = [];
+
+  void initState(){
+    super.initState();
+    card_elements.shuffle();
+    print(card_elements);
+  }
+  
+  void _flip(int index,String _card){
+    setState(() {
+      if(flippedIndex.length < 2 && !flipped[index]){
+        flipped[index] = !flipped[index];
+        flippedIndex.add(index);
+      }
+    });
+    print(_card);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,20 +58,20 @@ class _HomePageState extends State<HomePage> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      flipped[index] = !flipped[index];
+                      _flip(index,card_elements[index]);
                     });
                   },
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(seconds: 0),
                     child: Center(
                         child: flipped[index]
                             ? Container(
                                 color: Colors.white,
-                                child: Center(child: Text("Back")),
+                                child: Center(child: Text(card_elements[index])),
                               )
                             : Container(
                                 color: Colors.purple,
-                                child: Center(child: Text("Front")),
+                                child: Center(child: Text("Tap")),
                               )),
                   ),
                 );
