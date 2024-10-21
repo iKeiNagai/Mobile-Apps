@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 void main() {
   runApp(MyApp());
 }
@@ -20,7 +20,10 @@ class virtualAquarium extends StatefulWidget {
 
 class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderStateMixin {
   late AnimationController _fish_controller;
-  
+  List<Fish> fishes = [];
+  final double aquariumWidth = 300;
+  final double aquariumHeight = 300;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +35,20 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
             mainAxisAlignment: MainAxisAlignment.center, 
             children: <Widget>[
               Container(
-                width: 300,
-                height: 300,
+                width: aquariumWidth,
+                height: aquariumHeight,
                 decoration: BoxDecoration(
                   color: Colors.blueAccent,
                   border: Border.all(color: Colors.blueAccent)
+                ),
+                child: Stack(
+                  children: fishes.map((fish) {
+                  return Positioned(
+                    left: aquariumHeight - 100,
+                    top: aquariumWidth - 50,
+                    child: fish.buildFish(),
+                  );
+                }).toList(),
                 ),
               ),
               SizedBox(height: 20),
@@ -45,14 +57,18 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
                 onChanged: (value){}
               ),
               SizedBox(height: 20),
+              Text(fishes.length.toString()),
               ElevatedButton(
-                onPressed: (){}, 
+                onPressed: (){
+                  setState(() {
+                    fishes.add(Fish(color: Colors.black));
+                  });
+                }, 
                 child: Text('Add new fish')
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: (){
-
                 },
                 child: Text('Save Settings'))
             ],
@@ -60,3 +76,21 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
       ),
       );
 }}
+
+class Fish{
+  final Color color;
+
+  Fish({required this.color});
+
+  Widget buildFish(){
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle
+      ),
+    );
+  }
+
+}
