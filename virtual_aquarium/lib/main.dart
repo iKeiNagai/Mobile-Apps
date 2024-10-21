@@ -23,6 +23,8 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
   List<Fish> fishes = [];
   final double aquariumWidth = 300;
   final double aquariumHeight = 300;
+  double speed = 1.0;
+
 
   @override
   void initState(){
@@ -33,7 +35,7 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
       )..addListener((){
         setState(() {
           for(var fish in fishes){
-            fish.move(aquariumWidth, aquariumHeight);
+            fish.move(aquariumWidth, aquariumHeight, speed);
           }
         });
       })..repeat();
@@ -68,9 +70,17 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
                 ),
               ),
               SizedBox(height: 20),
+              Text("Adjust Speed"),
               Slider(
-                value: 1, 
-                onChanged: (value){}
+                value: speed,
+                min: 0,
+                max: 2.0,
+                divisions: 20,
+                onChanged: (value){
+                  setState(() {
+                    speed = value;
+                  });
+                }
               ),
               SizedBox(height: 20),
               Text(fishes.length.toString()),
@@ -113,8 +123,8 @@ class Fish{
     );
   }
 
-  void move(double aquariumWidth, double aquariumHeight){
-    position += velocity;
+  void move(double aquariumWidth, double aquariumHeight, double speed){
+    position += velocity * speed;
 
     if (position.dx < 0 || position.dx > aquariumWidth - 50) {
       velocity = Offset(-velocity.dx, velocity.dy); 
