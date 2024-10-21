@@ -24,6 +24,7 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
   final double aquariumWidth = 300;
   final double aquariumHeight = 300;
   double speed = 1.0;
+  Color? selected;
 
 
   @override
@@ -84,10 +85,31 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
               ),
               SizedBox(height: 20),
               Text(fishes.length.toString()),
+              Text("Select fish color"),
+              DropdownButton<Color>(
+                value: selected,
+                items: Colors.primaries.map((Color color){
+                  return DropdownMenuItem<Color>(
+                    value: color,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        width: 200,
+                        height: 50,
+                        color: color,
+                      ),
+                    ));
+                }).toList(),
+                onChanged: (Color? newValue){
+                  selected = newValue!;
+                },
+              ),
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    fishes.add(Fish(color: Colors.black, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
+                    if(selected != null){
+                    fishes.add(Fish(color: selected, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
+                    }
                   });
                 }, 
                 child: Text('Add new fish')
@@ -104,7 +126,7 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
 }}
 
 class Fish{
-  final Color color;
+  final Color? color;
   Offset position;
   Offset velocity;
 
