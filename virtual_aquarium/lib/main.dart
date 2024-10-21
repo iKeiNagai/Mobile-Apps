@@ -25,6 +25,22 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
   final double aquariumHeight = 300;
 
   @override
+  void initState(){
+    super.initState();
+    _fish_controller = AnimationController(
+      duration:  const Duration(seconds: 2),
+      vsync: this
+      )..addListener((){
+        setState(() {
+          for(var fish in fishes){
+            fish.move(aquariumWidth, aquariumHeight);
+          }
+        });
+      })..repeat();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,8 +60,8 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
                 child: Stack(
                   children: fishes.map((fish) {
                   return Positioned(
-                    left: aquariumHeight - 100,
-                    top: aquariumWidth - 50,
+                    left: fish.position.dx,
+                    top: fish.position.dy,
                     child: fish.buildFish(),
                   );
                 }).toList(),
@@ -61,7 +77,7 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    fishes.add(Fish(color: Colors.black));
+                    fishes.add(Fish(color: Colors.black, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
                   });
                 }, 
                 child: Text('Add new fish')
@@ -79,8 +95,12 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
 
 class Fish{
   final Color color;
+  Offset position;
+  Offset velocity;
 
-  Fish({required this.color});
+  Fish({required this.color, required double aquariumWidth, required double aquariumHeight})
+      : position = Offset(Random().nextDouble() * (aquariumWidth - 50), Random().nextDouble() * (aquariumHeight - 50)),
+        velocity = Offset((Random().nextBool() ? 1 : -1) * (1 + Random().nextDouble() * 2), (Random().nextBool() ? 1 : -1) * (1 + Random().nextDouble() * 2));
 
   Widget buildFish(){
     return Container(
@@ -91,6 +111,17 @@ class Fish{
         shape: BoxShape.circle
       ),
     );
+  }
+
+  void move(double aquariumWidth, double aquariumHeight){
+    position += velocity;
+
+    if (position.dx < 0 || position.dx > aquariumWidth - 50) {
+      velocity = Offset(-velocity.dx, velocity.dy); 
+    }
+    if (position.dy < 0 || position.dy > aquariumHeight - 50) {
+      velocity = Offset(velocity.dx, -velocity.dy); 
+    }
   }
 
 }
