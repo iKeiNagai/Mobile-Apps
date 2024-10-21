@@ -38,7 +38,23 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
                   color: Colors.blueAccent,
                   border: Border.all(color: Colors.blueAccent)
                 ),
-              )
+              ),
+              SizedBox(height: 20),
+              Slider(
+                value: 1, 
+                onChanged: (value){}
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (){}, 
+                child: Text('Add new fish')
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: (){
+
+                },
+                child: Text('Save Settings'))
             ],
           ),
       ),
