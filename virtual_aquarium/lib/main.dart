@@ -107,7 +107,7 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    if(selected != null){
+                    if(selected != null && fishes.length < 3){
                     fishes.add(Fish(color: selected, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
                     }
                   });
