@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'database_helper.dart';
+import 'package:sqflite/sqflite.dart';
 void main() {
   runApp(MyApp());
 }
@@ -40,7 +42,30 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
           }
         });
       })..repeat();
+    _loadSettings();
+  }
 
+
+  Future<void> _saveSettings() async {
+    if(selected != null){
+      await DatabaseHelper.instance.deleteSettings();
+    for (int i = 0; i < fishes.length; i++) {
+      await DatabaseHelper.instance.saveSettings(1, speed, fishes[i].color!.value);
+    }
+    }
+  }
+
+  Future<void> _loadSettings() async {
+    final settings = await DatabaseHelper.instance.loadSettings();
+
+    if(settings.isNotEmpty){
+      setState(() {
+        for(var setting in settings){
+          fishes.add(Fish(color: Color(setting['color']), aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
+        }
+        speed = settings.first['speed'];
+      });
+    }
   }
 
   @override
@@ -108,16 +133,17 @@ class _virtualAquarium extends State<virtualAquarium> with SingleTickerProviderS
                 onPressed: (){
                   setState(() {
                     if(selected != null && fishes.length < 3){
-                    fishes.add(Fish(color: selected, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
+                      fishes.add(Fish(color: selected, aquariumWidth: aquariumWidth, aquariumHeight: aquariumHeight));
                     }
                   });
                 }, 
                 child: Text('Add new fish')
               ),
               SizedBox(height: 20),
+              Text(fishes.toString()),
+              Text(speed.toString()),
               ElevatedButton(
-                onPressed: (){
-                },
+                onPressed: _saveSettings,
                 child: Text('Save Settings'))
             ],
           ),
