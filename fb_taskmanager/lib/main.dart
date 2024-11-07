@@ -42,11 +42,30 @@ class _TaskListState extends State<TaskList> {
 
     try {
       await _maintasks.add({
-        'mainTask' : mainTask
+        'mainTask' : mainTask,
+        'isCompleted' : false
       });
       const Text('Succesful');
     } catch (e) {
       Text('error adding task: $e' );
+    }
+  }
+
+  Future<void> deleteTask(String taskid) async {
+    try{
+      await _maintasks.doc(taskid).delete();
+    } catch(e){
+      Text('Error deleting: $e');
+    }
+  }
+
+  Future<void> toggleCompletion(String taskid, bool currentStatus) async {
+    try{
+      await _maintasks.doc(taskid).update({
+        'isCompleted': !currentStatus,
+      });
+    } catch(e){
+      Text('error toggling; $e');
     }
   }
 
@@ -80,10 +99,24 @@ class _TaskListState extends State<TaskList> {
                         itemCount: streamSnapshot.data!.docs.length,
                         itemBuilder: (context, index){
                           final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
-
-                          return ListTile(
-                            title: Text(documentSnapshot['mainTask']),
-                          );
+                          final bool isCompleted = documentSnapshot['isCompleted'];
+                          return Card(
+                            margin: const EdgeInsets.all(10),
+                            child: ListTile(
+                              leading: Checkbox(
+                                value: isCompleted, 
+                                onChanged: (bool? newValue){
+                                  toggleCompletion(documentSnapshot.id, isCompleted);
+                                }),
+                              title: Text(documentSnapshot['isCompleted'].toString()),       
+                              trailing: IconButton(
+                                onPressed:() => 
+                                  isCompleted 
+                                  ? deleteTask(documentSnapshot.id)
+                                  : null ,
+                                icon: const Icon(Icons.delete)),
+                              ),
+                            );
                         });
                     }
                     return const Center(
