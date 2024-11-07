@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
+import 'profile_screen.dart';
 
 
 void main() async {
@@ -176,7 +177,7 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
   bool _initialState = true;
   String _userEmail ='';
 
-  void _signInWithEmailAndPassword() async {
+void _signInWithEmailAndPassword() async {
     try {
       await widget.auth.signInWithEmailAndPassword(
         email: _emailController.text,
@@ -187,6 +188,14 @@ class _EmailPasswordFormState extends State<EmailPasswordForm> {
         _userEmail = _emailController.text;
         _initialState = false;
       });
+
+      // Navigate to ProfileScreen after successful login
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfileScreen(userEmail: _userEmail),
+        ),
+      );
     } catch (e) {
       setState(() {
         _success = false;
