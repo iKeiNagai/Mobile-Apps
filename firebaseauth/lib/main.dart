@@ -193,7 +193,7 @@ void _signInWithEmailAndPassword() async {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileScreen(userEmail: _userEmail),
+          builder: (context) => ProfileScreen(),
         ),
       );
     } catch (e) {
