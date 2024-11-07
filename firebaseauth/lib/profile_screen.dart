@@ -7,6 +7,11 @@ class ProfileScreen extends StatelessWidget {
 
   ProfileScreen({super.key});
 
+  void _logout(BuildContext context) async{
+    await _auth.signOut();
+    Navigator.pop(context);
+  }
+
   void _changePassword(BuildContext context) {
     final TextEditingController _passwordController = TextEditingController();
 
@@ -41,8 +46,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     );
 
-                    await _auth.signOut();
-                    Navigator.pop(context);
+                    _logout(context);
                   } catch (e) {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -67,6 +71,11 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        actions: [
+          IconButton(
+            onPressed: () => _logout(context), 
+            icon: const Icon(Icons.logout))
+        ],
       ),
       body: Center(
         child: Column(
