@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -31,6 +32,24 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
+  final TextEditingController _taskcontroller = TextEditingController();
+  
+  final CollectionReference _maintasks = FirebaseFirestore.instance.collection('Main Tasks');
+
+
+  Future<void> addTask (String mainTask) async {
+    if(mainTask.isEmpty) return;
+
+    try {
+      await _maintasks.add({
+        'mainTask' : mainTask
+      });
+      const Text('Succesful');
+    } catch (e) {
+      Text('error adding task: $e' );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,15 +59,37 @@ class _TaskListState extends State<TaskList> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: <Widget> [
               TextField(
+                controller: _taskcontroller,
                 decoration: InputDecoration(labelText: 'Task Name'),
               ),
               OutlinedButton(
-                onPressed:(){}, 
-                child: Text('add'))
+                onPressed:() => addTask(_taskcontroller.text), 
+                child: const Text('add')
+              ),
+              const SizedBox(height: 50),
+              Expanded(
+                child: StreamBuilder(
+                  stream: _maintasks.snapshots(), 
+                  builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot){
+                    if(streamSnapshot.hasData){
+                      return ListView.builder(
+                        itemCount: streamSnapshot.data!.docs.length,
+                        itemBuilder: (context, index){
+                          final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
+
+                          return ListTile(
+                            title: Text(documentSnapshot['mainTask']),
+                          );
+                        });
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }))
             ],
           )),
       ),
