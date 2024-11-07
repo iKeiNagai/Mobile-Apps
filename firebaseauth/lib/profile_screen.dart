@@ -14,10 +14,10 @@ class ProfileScreen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Change Password'),
+          title: const Text('Change Password'),
           content: TextField(
             controller: _passwordController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'New Password',
             ),
           ),
@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -36,10 +36,13 @@ class ProfileScreen extends StatelessWidget {
                     await _auth.currentUser?.updatePassword(newPassword);
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Password changed successfully'),
+                      const SnackBar(
+                        content: Text('Password changed'),
                       ),
                     );
+
+                    await _auth.signOut();
+                    Navigator.pop(context);
                   } catch (e) {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -50,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                   }
                 }
               },
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         );
@@ -63,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text('Profile'),
       ),
       body: Center(
         child: Column(
@@ -71,12 +74,12 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Text(
               'Email: ${_auth.currentUser?.email ?? 'No user'}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => _changePassword(context), 
-              child: Text("Change Password"))
+              child: const Text("Change Password"))
           ],
         ),
       ),
