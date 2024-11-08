@@ -33,6 +33,7 @@ class TaskList extends StatefulWidget {
 
 class _TaskListState extends State<TaskList> {
   final TextEditingController _taskcontroller = TextEditingController();
+  final TextEditingController _subtaskcontroller = TextEditingController();
   
   final CollectionReference _maintasks = FirebaseFirestore.instance.collection('Main Tasks');
 
@@ -43,7 +44,8 @@ class _TaskListState extends State<TaskList> {
     try {
       await _maintasks.add({
         'mainTask' : mainTask,
-        'isCompleted' : false
+        'isCompleted' : false,
+        'subtask' : []
       });
       const Text('Succesful');
     } catch (e) {
@@ -66,6 +68,24 @@ class _TaskListState extends State<TaskList> {
       });
     } catch(e){
       Text('error toggling; $e');
+    }
+  }
+
+  Future<void> addsubtask(String taskid, String subtask) async{
+    DocumentSnapshot maintaskdoc = await _maintasks.doc(taskid).get();
+    List<dynamic> subtasks = maintaskdoc.get('subtask') ?? [];
+
+    subtasks.add({
+      'name' : subtask,
+      'isCompleted' : false
+    });
+    
+    try{
+      await _maintasks.doc(taskid).update({
+        'subtask': subtasks
+      });
+    } catch(e){
+      Text('error adding subtask: $e');
     }
   }
 
@@ -100,21 +120,68 @@ class _TaskListState extends State<TaskList> {
                         itemBuilder: (context, index){
                           final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
                           final bool isCompleted = documentSnapshot['isCompleted'];
+                          final List subtasks = documentSnapshot['subtask'] ?? [];
                           return Card(
                             margin: const EdgeInsets.all(10),
-                            child: ListTile(
+                            child: ExpansionTile(
                               leading: Checkbox(
                                 value: isCompleted, 
                                 onChanged: (bool? newValue){
                                   toggleCompletion(documentSnapshot.id, isCompleted);
                                 }),
                               title: Text(documentSnapshot['isCompleted'].toString()),       
-                              trailing: IconButton(
-                                onPressed:() => 
-                                  isCompleted 
-                                  ? deleteTask(documentSnapshot.id)
-                                  : null ,
-                                icon: const Icon(Icons.delete)),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    onPressed:() => 
+                                      isCompleted 
+                                      ? deleteTask(documentSnapshot.id)
+                                      : null ,
+                                    icon: const Icon(Icons.delete)),
+                                  IconButton(
+                                    onPressed: (){
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context){
+                                          return AlertDialog(
+                                            title: const Text('Add subtask'),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                TextField(
+                                                  controller: _subtaskcontroller,
+                                                  decoration: InputDecoration(labelText: 'Subtask Name'),
+                                                ),
+                                                OutlinedButton(
+                                                  onPressed:(){
+                                                    addsubtask(documentSnapshot.id, _subtaskcontroller.text);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Enter'))
+                                              ],
+                                            ),
+                                          );
+                                        });
+                                    }, 
+                                    icon: Icon(Icons.add))
+                                ],
+                              ),
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: subtasks.length,
+                                  itemBuilder: (context, index){
+                                    var subtask = subtasks[index];
+                                    return Card(
+                                      child: ListTile(
+                                        title: Text(subtask['name']),
+                                  
+                                      ),
+                                    );
+                                  })
+                              ],
                               ),
                             );
                         });
