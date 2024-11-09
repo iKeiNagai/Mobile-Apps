@@ -89,6 +89,28 @@ class _TaskListState extends State<TaskList> {
     }
   }
 
+  Future<void> completionSubtask(String taskid, int subtaskindex, bool currentStatus) async {
+    DocumentSnapshot maintaskdoc = await _maintasks.doc(taskid).get();
+    List<dynamic> subtasks = maintaskdoc.get('subtask') ?? [];
+
+    subtasks[subtaskindex]['isCompleted'] = !currentStatus;
+
+    await _maintasks.doc(taskid).update({
+      'subtask' : subtasks
+    });
+  }
+
+  Future<void> deleteSubtask(String taskid, int subtaskindex) async {
+    DocumentSnapshot maintaskdoc = await _maintasks.doc(taskid).get();
+    List<dynamic> subtasks = maintaskdoc.get('subtask') ?? [];
+
+    subtasks.removeAt(subtaskindex);
+
+    await _maintasks.doc(taskid).update({
+      'subtask' : subtasks
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,19 +190,31 @@ class _TaskListState extends State<TaskList> {
                                 ],
                               ),
                               children: [
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: subtasks.length,
-                                  itemBuilder: (context, index){
-                                    var subtask = subtasks[index];
-                                    return Card(
-                                      child: ListTile(
-                                        title: Text(subtask['name']),
-                                  
-                                      ),
-                                    );
-                                  })
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: subtasks.length,
+                                    itemBuilder: (context, index){
+                                      var subtask = subtasks[index];
+                                      final bool isCompletedsub = subtask['isCompleted'];
+                                      return ListTile(
+                                        leading: Checkbox(
+                                          value: isCompletedsub, 
+                                          onChanged: (bool? newValue){
+                                            completionSubtask(documentSnapshot.id, index, isCompletedsub);
+                                          }),
+                                        title: Text(subtask['isCompleted'].toString()),
+                                        trailing: IconButton(
+                                          onPressed: () => 
+                                          isCompletedsub
+                                          ? deleteSubtask(documentSnapshot.id, index)
+                                          : null,
+                                          icon: const Icon(Icons.delete)),        
+                                      );
+                                    }),
+                                )
                               ],
                               ),
                             );
