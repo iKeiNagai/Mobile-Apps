@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -38,6 +39,12 @@ class _TaskListState extends State<TaskList> {
   
   final CollectionReference _maintasks = FirebaseFirestore.instance.collection('Main Tasks');
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _logout(BuildContext context) async{
+    await _auth.signOut();
+    Navigator.pop(context);
+  }
 
   Future<void> addTask (String mainTask) async {
     if(mainTask.isEmpty) return;
@@ -118,6 +125,11 @@ class _TaskListState extends State<TaskList> {
       appBar: AppBar(
         title: const Text('Task Manager'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => _logout(context), 
+            icon: const Icon(Icons.logout))
+        ],
       ),
       body: Center(
         child: Padding(
