@@ -60,6 +60,9 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
         _userEmail = _emailController.text;
         _initialState = false;
       });
+
+      _emailController.clear();
+      _passwordController.clear();
       Navigator.of(context).pop();
     } catch (e) {
       setState(() {
@@ -178,6 +181,10 @@ void _signInWithEmailAndPassword() async {
         _initialState = false;
       });
 
+      _emailController.clear();
+      _passwordController.clear();
+      _initialState = true;
+      _success = false;
       Navigator.push(
         context,
         MaterialPageRoute(
