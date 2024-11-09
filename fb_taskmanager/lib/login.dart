@@ -3,22 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
-class loginPage extends StatefulWidget {
-  const loginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  void _signOut() async {
-    await _auth.signOut();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Signed out successfully'),
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +34,7 @@ class _loginPageState extends State<loginPage> {
 }
 
 class RegisterEmailSection extends StatefulWidget {
-  RegisterEmailSection({Key? key, required this.auth}) : super(key: key);
+  const RegisterEmailSection({super.key, required this.auth});
   final FirebaseAuth auth;
 
   @override
@@ -100,7 +93,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
                 ),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -117,16 +110,15 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
             ),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _register();
                 }
-                Navigator.of(context).pop();
               },
-              child: Text("Submit"),
+              child: const Text("Submit"),
             ),
           ],
         );
@@ -144,7 +136,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
             onPressed: _showRegisterDialog,
             child: const Text('Create Account'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           if (!_initialState)
             Text(
               _success
@@ -159,7 +151,7 @@ class _RegisterEmailSectionState extends State<RegisterEmailSection> {
 }
 
 class EmailPasswordForm extends StatefulWidget {
-  EmailPasswordForm({Key? key, required this.auth}) : super(key: key);
+  const EmailPasswordForm({super.key, required this.auth});
   final FirebaseAuth auth;
 
   @override
@@ -189,7 +181,7 @@ void _signInWithEmailAndPassword() async {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TaskList(),
+          builder: (context) => const TaskList(),
         ),
       );
     } catch (e) {
@@ -224,7 +216,7 @@ void _signInWithEmailAndPassword() async {
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
                   if (value?.isEmpty??true) {
                     return 'Please enter some text';
@@ -234,7 +226,7 @@ void _signInWithEmailAndPassword() async {
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 validator: (value) {
                   if (value?.isEmpty??true) {
                     return 'Please enter some text';
@@ -251,7 +243,7 @@ void _signInWithEmailAndPassword() async {
                       _signInWithEmailAndPassword();
                     }
                   },
-                  child: Text('Submit'),
+                  child: const Text('Submit'),
                 ),
               ),
             ],

@@ -9,7 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Task Manager',
-        home: loginPage(),
+        home: LoginPage(),
     );
   }
 }
@@ -77,7 +77,7 @@ class _TaskListState extends State<TaskList> {
     List<dynamic> subtasks = maintaskdoc.get('subtask') ?? [];
 
     subtasks.add({
-      'name' : subtask,
+      'subtask' : subtask,
       'isCompleted' : false
     });
     
@@ -126,7 +126,7 @@ class _TaskListState extends State<TaskList> {
             children: <Widget> [
               TextField(
                 controller: _taskcontroller,
-                decoration: InputDecoration(labelText: 'Task Name'),
+                decoration: const InputDecoration(labelText: 'Task Name'),
               ),
               OutlinedButton(
                 onPressed:() => addTask(_taskcontroller.text), 
@@ -152,7 +152,7 @@ class _TaskListState extends State<TaskList> {
                                 onChanged: (bool? newValue){
                                   toggleCompletion(documentSnapshot.id, isCompleted);
                                 }),
-                              title: Text(documentSnapshot['isCompleted'].toString()),       
+                              title: Text(documentSnapshot['mainTask']),       
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -174,7 +174,7 @@ class _TaskListState extends State<TaskList> {
                                               children: [
                                                 TextField(
                                                   controller: _subtaskcontroller,
-                                                  decoration: InputDecoration(labelText: 'Subtask Name'),
+                                                  decoration: const InputDecoration(labelText: 'Subtask Name'),
                                                 ),
                                                 OutlinedButton(
                                                   onPressed:(){
@@ -187,7 +187,7 @@ class _TaskListState extends State<TaskList> {
                                           );
                                         });
                                     }, 
-                                    icon: Icon(Icons.add))
+                                    icon: const Icon(Icons.add))
                                 ],
                               ),
                               children: [
@@ -195,7 +195,7 @@ class _TaskListState extends State<TaskList> {
                                   padding: const EdgeInsets.all(16.0),
                                   child: ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemCount: subtasks.length,
                                     itemBuilder: (context, index){
                                       var subtask = subtasks[index];
@@ -206,7 +206,7 @@ class _TaskListState extends State<TaskList> {
                                           onChanged: (bool? newValue){
                                             completionSubtask(documentSnapshot.id, index, isCompletedsub);
                                           }),
-                                        title: Text(subtask['isCompleted'].toString()),
+                                        title: Text(subtask['subtask']),
                                         trailing: IconButton(
                                           onPressed: () => 
                                           isCompletedsub
