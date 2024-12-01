@@ -1,4 +1,4 @@
-
+import '';
 import 'package:custom_quiz/API.dart';
 import 'package:custom_quiz/question.dart';
 import 'package:flutter/material.dart';
@@ -94,15 +94,18 @@ class _QuizScreenState extends State<QuizScreen> {
     final question = _questions[_currentQuestionIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text('Quiz App')),
+      appBar: AppBar(
+        title: Text(
+          'Question ${_currentQuestionIndex + 1}/${_questions.length}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'Question ${_currentQuestionIndex + 1}/${_questions.length}',
-              style: TextStyle(fontSize: 20),
+            Center(
+              child: Text(
+                'Score: $_score/${_questions.length}',
+                style: TextStyle(fontSize: 20),),
             ),
             SizedBox(height: 16),
             Text(
