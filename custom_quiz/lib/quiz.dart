@@ -1,4 +1,4 @@
-import '';
+import 'dart:async';
 import 'package:custom_quiz/API.dart';
 import 'package:custom_quiz/question.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,8 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _answered = false;
   String _selectedAnswer = "";
   String _feedbackText = "";
+  late Timer _timer;
+  int _timeremaining = 15;
 
   @override
   void initState() {
@@ -37,12 +39,15 @@ class _QuizScreenState extends State<QuizScreen> {
         _questions = questions;
         _loading = false;
       });
+      _startTimer();
     } catch (e) {
       Text("error: $e");
     }
+    
   }
 
   void _submitAnswer(String selectedAnswer) {
+    _timer.cancel();
     setState(() {
       _answered = true;
       _selectedAnswer = selectedAnswer;
@@ -55,15 +60,23 @@ class _QuizScreenState extends State<QuizScreen> {
         _feedbackText = "Incorrect. The correct answer is $correctAnswer.";
       }
     });
+
+    Future.delayed(Duration(seconds: 2), _nextQuestion);
   }
 
   void _nextQuestion() {
-    setState(() {
-      _answered = false;
-      _selectedAnswer = "";
-      _feedbackText = "";
-      _currentQuestionIndex++;
-    });
+    if (_currentQuestionIndex + 1 < _questions.length) {
+      setState(() {
+        _currentQuestionIndex++;
+        _answered = false;
+        _feedbackText = '';
+      });
+      _startTimer();
+    } else {
+      setState(() {
+        _timer.cancel();
+      });
+    }
   }
 
    Widget _buildOptionButton(String option) {
@@ -72,6 +85,28 @@ class _QuizScreenState extends State<QuizScreen> {
       child: Text(option),
       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
     );
+  }
+
+  void _startTimer(){
+    _timeremaining = 15;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer){
+      setState(() {
+        if(_timeremaining > 0){
+          _timeremaining--;
+        }else{
+          _timer.cancel();
+          _handleTimeout();
+        }
+      });
+    });
+  }
+
+  void _handleTimeout() {
+    setState(() {
+      _feedbackText = "Time's up!";
+      _answered = true;
+    });
+    Future.delayed(Duration(seconds: 2), _nextQuestion);
   }
 
   @override
@@ -102,6 +137,8 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text('Time: $_timeremaining',
+            style: TextStyle(fontSize: 20),),
             Center(
               child: Text(
                 'Score: $_score/${_questions.length}',
