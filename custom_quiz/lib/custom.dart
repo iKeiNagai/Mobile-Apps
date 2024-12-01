@@ -1,3 +1,4 @@
+import 'package:custom_quiz/quiz.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -107,7 +108,14 @@ class _CustomQuizState extends State<CustomQuiz> {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                
+                Navigator.push(context,
+                 MaterialPageRoute(
+                  builder: (context) => QuizScreen(
+                    amount: _numberOfQuestions,
+                    category: _selectedCategory,
+                    difficulty: _selectedDifficulty,
+                    type: _selectedType
+                  )));
               },
               child: const Text('Start Quiz'),
             ),
