@@ -108,14 +108,14 @@ class _CustomQuizState extends State<CustomQuiz> {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushAndRemoveUntil(context,
                  MaterialPageRoute(
                   builder: (context) => QuizScreen(
                     amount: _numberOfQuestions,
                     category: _selectedCategory,
                     difficulty: _selectedDifficulty,
                     type: _selectedType
-                  )));
+                  )),(Route<dynamic> route) => false);
               },
               child: const Text('Start Quiz'),
             ),
