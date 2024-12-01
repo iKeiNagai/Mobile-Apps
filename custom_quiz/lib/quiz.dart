@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:custom_quiz/API.dart';
+import 'package:custom_quiz/custom.dart';
 import 'package:custom_quiz/question.dart';
 import 'package:flutter/material.dart';
 
@@ -114,9 +115,27 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (_currentQuestionIndex >= _questions.length) {
       return Scaffold(
+        appBar: AppBar(
+          title: Text('Quiz Summary'),
+          centerTitle: true,
+        ),
         body: Center(
-          child:
-              Text('Quiz Finished! Your Score: $_score/${_questions.length}'),
+          child:Column(
+            children: [
+              SizedBox(height: 50),
+              Text('Quiz Finished! Your Score: $_score/${_questions.length}',
+                    style: TextStyle(fontSize: 20),),
+              OutlinedButton(
+                onPressed:(){
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => CustomQuiz()),
+                    (Route<dynamic> route) => false, //remove previous routes
+                  );
+                }, 
+                child: Text('New Quiz'))
+            ],
+          ),
         ),
       );
     }
