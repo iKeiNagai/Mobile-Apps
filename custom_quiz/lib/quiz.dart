@@ -65,18 +65,13 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _nextQuestion() {
-    if (_currentQuestionIndex + 1 < _questions.length) {
-      setState(() {
-        _currentQuestionIndex++;
-        _answered = false;
-        _feedbackText = '';
-      });
+    setState(() {
+      _answered = false;
+      _selectedAnswer = "";
+      _feedbackText = "";
+      _currentQuestionIndex++;
+    });
       _startTimer();
-    } else {
-      setState(() {
-        _timer.cancel();
-      });
-    }
   }
 
    Widget _buildOptionButton(String option) {
